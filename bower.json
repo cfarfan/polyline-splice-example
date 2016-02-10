@@ -1,0 +1,23 @@
+{
+  "name": "polyline-splice",
+  "authors": [
+    "Camilo Farfán <camilo.farfanp@gmail.com>"
+  ],
+  "description": "Leaflet Polyline Splice method example",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polyline": "~0.2.0"
+  }
+}
