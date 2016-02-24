@@ -7,11 +7,6 @@ angular.module('experiment',['ngRoute'])
         templateUrl: 'template.html',
         active: 'index'
       })
-      .when('/mapmatching', {
-        controller: 'mapMatchingCtrl',
-        templateUrl: 'template.html',
-        active: 'mapmatching'
-      })
       .otherwise({
         redirectTo:'/'
       });
@@ -72,49 +67,6 @@ angular.module('experiment',['ngRoute'])
         }, 1000)
       })
     })
-  })
-  .controller('mapMatchingCtrl',function($scope, $route, $http, $timeout){
-    $scope.$route = $route
-
-    L.mapbox.accessToken = config.mapbox.token
-    var map = L.mapbox.map('map', 'mapbox.dark')
-        .setView([37.765015, -122.416363], 13)
-
-    var gpsdata = undefined
-    var fixeddata = undefined
-    var p = L.polyline([]).addTo(map)
-
-    $http.get('data/gpsdata.json').then(function(response){
-      gpsdata = response.data
-      p.setLatLngs(gpsdata.map(function(e){return e.slice(0,2)}))
-
-      map.fitBounds(p.getBounds())
-      map.setZoom(16)
-
-      return $http.get('data/fixeddata.json')
-    }).then(function(response){
-      fixeddata = response.data
-
-      var start = 0
-      for(var i = 0; i < fixeddata.length; i++)
-        (function(index){
-          $timeout(function(){
-            if((index-1) == -1) {
-              start = 0
-            }
-            else{
-              start = _.findIndex(gpsdata, function(o) { return o[2] == fixeddata[index-1][2] })+1
-            }
-
-            var last = _.findIndex(gpsdata, function(o) { return o[2] > fixeddata[index][2] })-1
-            gpsdata.splice(start,last-start,fixeddata[index])
-
-            p.setLatLngs(gpsdata.map(function(e){return e.slice(0,2)}))
-          },50*index)
-        })(i)
-
-    })
-
   })
 
 
